@@ -1,14 +1,213 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client(); 
+const fs = require('fs');
+const prefix = "$"
+
+
+
+//////كود طرد البوتات 
+let antihack = JSON.parse(fs.readFileSync('./antihack.json' , 'utf8'));//require antihack.json file
+client.on('message', message => {
+    if(message.content.startsWith(prefix + "toggleAntihack")) {
+        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('**Sorry But You Dont Have Permission** `MANAGE_GUILD`' );
+        if(!antihack[message.guild.id]) antihack[message.guild.id] = {
+          onoff: 'Off'
+        }
+          if(antihack[message.guild.id].onoff === 'Off') return [message.channel.send(`**âœ… The AntiHack Is __ً‌گژً‌گچ__ !**`), antihack[message.guild.id].onoff = 'On']
+          if(antihack[message.guild.id].onoff === 'On') return [message.channel.send(`**â›” The AntiHack Is __ً‌گژً‌گ…ً‌گ…__ !**`), antihack[message.guild.id].onoff = 'Off']
+          fs.writeFile("./antihack.json", JSON.stringify(antihack), (err) => {
+            if (err) console.error(err)
+            .catch(err => {
+              console.error(err);
+          });
+            });
+          }
+ 
+        })
+        //antihack with ON , OFF ! RARE CODE
+        //LIKE PLUSBOT !
+ 
+  let banse = new Set();
+  let bane = JSON.parse(fs.readFileSync('./data1.json' , 'utf8'));//require data1.json
+  client.on('guildBanAdd', function(guild) {
+    guild.fetchAuditLogs().then(logs => {
+      const ser = logs.entries.first().executor;
+      if(!bane[ser.id+guild.id]) bane[ser.id+guild.id] = {
+        bans: 2
+      }
+      if(antihack[guild.guild.id].onoff === 'Off') return;
+      let boner = bane[ser.id+guild.id]
+  banse.add(ser.id)
+  boner.bans = Math.floor(boner.bans+1)
+ 
+ 
+  setTimeout(() => {
+    boner.bans = 2
+    banse.delete(ser.id)
+  },8000)
+ 
+  if(boner.bans > 2) {
+    let roles = guild.members.get(ser.id).roles.array()
+  guild.members.get(ser.id).removeRoles(roles)
+  }
+ 
+      })
+      fs.writeFile('./data1.json', JSON.stringify(bane), (err) => {
+  if (err) console.error(err);
+  })
+ 
+  })
+  client.on('guildMemberRemove', (u) => {
+      u.guild.fetchAuditLogs().then( s => {
+          var ss = s.entries.first();
+          if (ss.action == `MEMBER_KICK`) {
+          if (!data[ss.executor.id]) {
+              data[ss.executor.id] = {
+              time : 1
+            };
+            if(antihack[u.guild.id].onoff === 'Off') return;
+ 
+        } else {  
+            data[ss.executor.id].time+=1
+        };
+        if(antihack[u.guild.id].onoff === 'Off') return;
+  data[ss.executor.id].time = 0
+  u.guild.members.get(ss.executor.id).roles.forEach(r => {
+                  r.edit({
+                      permissions : []
+                  });
+                  data[ss.executor.id].time = 0
+              });
+          setTimeout(function(){
+              if (data[ss.executor.id].time <= 3) {
+                  data[ss.executor.id].time = 0
+              }
+          })
+      };
+      });
+    const data = require("./data.json");
+  });
+  client.on('roleDelete', (u) => {
+      u.guild.fetchAuditLogs().then( s => {
+          var ss = s.entries.first();
+          if (ss.action == `ROLE_DELETE`) {
+          if (!data[ss.executor.id]) {
+              data[ss.executor.id] = {
+              time : 1
+            };
+            if(antihack[u.guild.id].onoff === 'Off') return;
+ 
+        } else {
+            data[ss.executor.id].time+=1
+        };
+        if(antihack[u.guild.id].onoff === 'Off') return;
+ 
+  data[ss.executor.id].time = 0
+  u.guild.members.get(ss.executor.id).roles.forEach(r => {   
+                  r.edit({
+                      permissions : []  
+                  });
+                  data[ss.executor.id].time = 0
+              });
+          setTimeout(function(){
+              if (data[ss.executor.id].time <= 3) {
+                  data[ss.executor.id].time = 0
+              }
+          },60000)
+      };
+      });
+    const data = require("./data.json");
+  });
+  client.on('channelDelete', (u) => {  
+      u.guild.fetchAuditLogs().then( s => { 
+          var ss = s.entries.first();
+          if (ss.action == `CHANNEL_DELETE`) { 
+          if (!data[ss.executor.id]) {
+              data[ss.executor.id] = { 
+              time : 1
+            };
+            if(antihack[u.guild.id].onoff === 'Off') return;
+        } else {
+            data[ss.executor.id].time+=1
+        };
+        if(antihack[u.guild.id].onoff === 'Off') return;
+  data[ss.executor.id].time = 0
+  u.guild.members.get(ss.executor.id).roles.forEach(r => {
+                  r.edit({
+                      permissions : []
+                  });
+                  data[ss.executor.id].time = 0
+              });
+          setTimeout(function(){
+              if (data[ss.executor.id].time <= 3) { //Toxic Codes
+                  data[ss.executor.id].time = 0
+              }
+          })
+      };
+      });
+    const data = require("./data.json");
+  })
+  let antibots = JSON.parse(fs.readFileSync('./antibots.json' , 'utf8'));//require antihack.json file
+  client.on('message', message => {
+    if(message.content.startsWith(prefix + "antibots on")) {
+        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('**Sorry But You Dont Have Permission** `ADMINISTRATOR`' );
+antibots[message.guild.id] = {
+onoff: 'On',
+}
+message.channel.send(`**âœ… The AntiBots Is __ً‌گژً‌گچ__ !**`)
+          fs.writeFile("./antibots.json", JSON.stringify(antibots), (err) => {
+            if (err) console.error(err)
+            .catch(err => {
+              console.error(err);
+          });
+            });
+          }
+ 
+
+    if(message.content.startsWith(prefix + "antibots off")) {
+        if(!message.channel.guild) return message.reply('**This Command Only For Servers**');
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('**Sorry But You Dont Have Permission** `ADMINISTRATOR`' );
+antibots[message.guild.id] = {
+onoff: 'Off',
+}
+message.channel.send(`**â›” The AntiBots Is __ً‌گژً‌گ…ً‌گ…__ !**`)
+          fs.writeFile("./antibots.json", JSON.stringify(antibots), (err) => {
+            if (err) console.error(err)
+            .catch(err => {
+              console.error(err);
+          });
+            });
+          }
+ 
+        })
+ 
+client.on("guildMemberAdd", member => {
+  if(!antibots[member.guild.id]) antibots[member.guild.id] = {
+onoff: 'Off'
+}
+  if(antibots[member.guild.id].onoff === 'Off') return;
+if(member.user.bot) return member.kick()
+})
+ 
+fs.writeFile("./antibots.json", JSON.stringify(antibots), (err) => {
+if (err) console.error(err)
+.catch(err => {
+console.error(err);
+});
+})
+
+//////كود منع التخريب
 
 var config = {
   events: [
-    {type: "CHANNEL_CREATE", logType: "CHANNEL_CREATE", limit: 5 , delay: 5000},
-    {type: "CHANNEL_DELETE", logType: "CHANNEL_DELETE", limit: 2, delay: 5000},
-    {type: "GUILD_MEMBER_REMOVE", logType: "MEMBER_KICK", limit: 2, delay: 5000},
-    {type: "GUILD_BAN_ADD", logType: "MEMBER_BAN_ADD", limit: 2, delay: 5000},
-    {type: "GUILD_ROLE_CREATE", logType: "ROLE_CREATE", limit: 1, delay: 5000},
-    {type: "GUILD_ROLE_DELETE", logType: "ROLE_DELETE", limit: 1, delay: 5000},
+    {type: "CHANNEL_CREATE", logType: "CHANNEL_CREATE", limit: 3 , delay: 5000},
+    {type: "CHANNEL_DELETE", logType: "CHANNEL_DELETE", limit: 3, delay: 5000},
+    {type: "GUILD_MEMBER_REMOVE", logType: "MEMBER_KICK", limit: 3, delay: 5000},
+    {type: "GUILD_BAN_ADD", logType: "MEMBER_BAN_ADD", limit: 3, delay: 5000},
+    {type: "GUILD_ROLE_CREATE", logType: "ROLE_CREATE", limit: 3, delay: 5000},
+    {type: "GUILD_ROLE_DELETE", logType: "ROLE_DELETE", limit: 3, delay: 5000},
   ]
 }
 client.on("error", (e) => console.error(e));
@@ -47,14 +246,33 @@ client.on("raw", (packet)=> {
         }).catch(console.error)
     }).catch(console.error)
 });
+
+
+
+
 client.on("reachLimit", (limit)=> {
-  let log = limit.guild.channels.find( channel => channel.name === "security-log");
-  log.send(limit.user.username+"\** سيرفر بيتهكر ! ** ");
-  limit.guild.owner.send(limit.user.username+"\** سيرفرك بيتهكر ! ** ")
-  limit.member.roles.map(role => {
-    limit.member.removeRole(role.id)
-    .catch(log.send)
+    let log = limit.guild.channels.find( channel => channel.name === "log");
+    log.send(`<@${limit.user.id}>`+"\ntried to hack (!)");
+    limit.guild.owner.send(limit.user.username+"\ntried to hack (!)")
+    limit.member.roles.map(role => {
+      limit.member.removeRole(role.id)
+      .catch(log.send)
+    });
   });
+
+client.on('ready', () => {
+   console.log(`----------------`);
+      console.log(`Desert Bot- Script By : osama,tech.#0184`);
+        console.log(`----------------`);
+      console.log(`ON ${client.guilds.size} Servers '     Script By : osama,tech.#0184 ' `);
+    console.log(`----------------`);
+  console.log(`Logged in as ${client.user.tag}!`);
+client.user.setGame(`Love Online♥Games `,"http://twitch.tv/S-F")
+client.user.setStatus("dnd")
 });
 
-client.login('NTkzOTEwMjMxMDEyOTk5NDEy.XRUwCg.DL49741-G5e7J7N2PeLRNgjRKWw');
+
+
+
+
+client.login("NTkzOTEwMjMxMDEyOTk5NDEy.XRUwCg.DL49741-G5e7J7N2PeLRNgjRKWw");
